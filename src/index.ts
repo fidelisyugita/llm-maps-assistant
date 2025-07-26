@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import mapsRoutes from "./routes/maps";
-import { PORT } from "./config";
+import mapsRoutes from "./routes/maps.js";
+import { PORT } from "./config/index.js";
 
 const app = express();
 

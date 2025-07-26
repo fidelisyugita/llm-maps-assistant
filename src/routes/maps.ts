@@ -1,5 +1,5 @@
 import express from "express";
-import { findPlaces } from "../services/googleMapsService";
+import { findPlaces } from "../services/googleMapsService.js";
 
 const router = express.Router();
 
