@@ -1,0 +1,36 @@
+{
+  "name": "llm-maps-assistant",
+  "version": "1.0.0",
+  "description": "This project is a Node.js backend connected to the Google Maps API and a local LLM (via Open WebUI). It allows users to ask for recommendations (e.g., \"Where to eat sushi near Berlin?\") and receive embeddable maps, directions, and location links.",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fidelisyugita/llm-maps-assistant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fidelisyugita/llm-maps-assistant/issues"
+  },
+  "homepage": "https://github.com/fidelisyugita/llm-maps-assistant#readme",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.9.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.3.3"
+  }
+}
