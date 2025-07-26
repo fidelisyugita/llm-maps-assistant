@@ -6,22 +6,34 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - 4000:4000
     env_file:
       - .env
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     depends_on:
       - ollama
     environment:
-      - PORT=4000
-      - OLLAMA_BASE_URL=http://ollama:11434
+      - PORT=${BACKEND_PORT}
+      - OLLAMA_BASE_URL=http://ollama:${OLLAMA_PORT}
+    # restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://localhost:${BACKEND_PORT}
     # restart: unless-stopped
 
   ollama:
     image: ollama/ollama
     container_name: ollama
     ports:
-      - 11434:11434
+      - "${OLLAMA_PORT}:${OLLAMA_PORT}"
     volumes:
       - ollama_models:/root/.ollama
     # restart: unless-stopped
