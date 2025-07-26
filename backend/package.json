@@ -1,7 +1,7 @@
 {
   "name": "llm-maps-assistant",
   "version": "1.0.0",
-  "description": "This project is a Node.js backend connected to the Google Maps API and a local LLM (via Open WebUI). It allows users to ask for recommendations (e.g., \"Where to eat sushi near Berlin?\") and receive embeddable maps, directions, and location links.",
+  "description": "A full-stack AI-powered map assistant that uses a locally hosted LLM (Mistral via Ollama) to recommend places to eat/go, and displays the results on an interactive Google Map. Built with Node.js, React, and Docker.",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
