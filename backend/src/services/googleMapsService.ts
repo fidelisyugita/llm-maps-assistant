@@ -22,25 +22,20 @@ export async function findPlaces(
     },
   });
 
-  return response.data.results.map((place: any): PlaceResult => {
+  return response.data.results.slice(0, 5).map((place: any): PlaceResult => {
     const name = place.name;
     const address = place.formatted_address;
+    const queryForLink = `${name} ${address}`;
 
     return {
       name,
       address,
-      mapLink: `https://www.google.com/maps/search/${encodeURIComponent(
-        query
-      )}+in+${encodeURIComponent(location)}`,
-      embedUrl: `<iframe src="https://www.google.com/maps?q=${encodeURIComponent(
-        query + " " + location
-      )}&output=embed" width="100%" height="400"></iframe>`,
-      // mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      //   name + " " + address
-      // )}`,
-      // embedUrl: `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(
-      //   name + " " + address
-      // )}`,
+      mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        queryForLink
+      )}`,
+      embedUrl: `<iframe src="https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(
+        queryForLink
+      )}" width="100%" height="400"></iframe>`,
     };
   });
 }
