@@ -29,16 +29,16 @@ export async function askOllama(userQuery: string): Promise<LLMResult> {
       ]
     }`;
 
-    // Send the prompt to Ollama
+    console.log("Sending prompt to Ollama:", prompt);
     const response = await axios.post(ollamaURL, {
       model: "mistral",
       prompt,
       stream: false,
     });
+    console.log("Ollama raw response:", response.data);
 
     const raw = response.data.response;
 
-    console.log("response raw: ", raw);
     const parsed = JSON.parse(raw);
     return parsed;
   } catch (error) {

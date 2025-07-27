@@ -15,12 +15,14 @@ export async function findPlaces(
   const textSearchURL =
     "https://maps.googleapis.com/maps/api/place/textsearch/json";
 
+  console.log("Query to Maps");
   const response = await axios.get(textSearchURL, {
     params: {
       query: `${query} in ${location}`,
       key: GOOGLE_MAPS_API_KEY,
     },
   });
+  console.log("Google raw response:", response.data);
 
   return response.data.results.slice(0, 5).map((place: any): PlaceResult => {
     const name = place.name;
