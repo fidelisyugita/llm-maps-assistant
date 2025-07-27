@@ -12,3 +12,9 @@ export interface SearchRequest {
   query: string;
   location: string;
 }
+export interface Place {
+  name: string;
+  address: string;
+  mapLink: string;
+  embedUrl: string;
+}

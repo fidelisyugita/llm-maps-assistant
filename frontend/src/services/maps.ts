@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { SearchRequest } from "../types/MapResponse";
+import type { SearchRequest } from "../types";
 
 export async function searchPlaces(query: string, location: string) {
   const payload: SearchRequest = { query, location };

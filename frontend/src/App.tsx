@@ -1,63 +1,86 @@
 import { useState } from "react";
-import "./App.css";
-import type { LocationResult } from "./types/MapResponse";
-import { searchPlaces } from "./services/maps";
+import type { Place } from "./types";
+import { askPlaces } from "./services/chat";
 
 function App() {
   const [query, setQuery] = useState("");
-  const [location, setLocation] = useState("");
-  const [results, setResults] = useState<LocationResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<Place[]>([]);
+  const [error, setError] = useState("");
 
-  const handleSearch = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setLoading(true);
+    setError("");
+    setResults([]);
+
     try {
-      const data = await searchPlaces(query, location);
+      const data = await askPlaces(query);
+      console.log("data: ", data);
       setResults(data);
+      // const res = await axios.post(`${import.meta.env.VITE_API_URL}chat`, {
+      //   question: query,
+      // });
+
+      // setResults(res.data.results);
     } catch (err) {
-      console.error("Search error:", err);
+      console.error(err);
+      setError("Failed to fetch places. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Find Places</h1>
-      <input
-        type="text"
-        placeholder="What to search?"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        style={{ marginRight: "1rem" }}
-      />
-      <input
-        type="text"
-        placeholder="Location (e.g., Berlin)"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-      />
-      <button
-        onClick={handleSearch}
-        disabled={loading}
-        style={{ marginLeft: "1rem" }}
-      >
-        {loading ? "Searching..." : "Search"}
-      </button>
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-2xl font-bold mb-4">
+        Travel AI: Find Places with Maps
+      </h1>
 
-      <ul>
-        {results.map((place) => (
-          <li key={place.place_id}>
-            <strong>{place.name}</strong> - {place.address} ({place.lat},{" "}
-            {place.lng}){" "}
-            {place.rating && (
-              <>
-                ⭐ {place.rating} ({place.user_ratings_total})
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+      <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+        <input
+          type="text"
+          placeholder="e.g. sushi near Braga, Bandung"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="flex-1 border p-2 rounded"
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          disabled={loading}
+        >
+          {loading ? "Searching..." : "Search"}
+        </button>
+      </form>
+
+      {error && <p className="text-red-600 mb-4">{error}</p>}
+
+      {/* {results.map((group, i) => (
+        <div key={i} className="mb-8">
+          <h2 className="text-xl font-semibold mb-3">Group {i + 1}</h2>
+          <div className="grid md:grid-cols-2 gap-6"> */}
+      {results.map((place, idx) => (
+        <div key={idx} className="border p-4 rounded shadow">
+          <h3 className="text-lg font-bold">{place.name}</h3>
+          <p className="text-sm text-gray-600 mb-2">{place.address}</p>
+          <div
+            className="mb-2"
+            dangerouslySetInnerHTML={{ __html: place.embedUrl }}
+          />
+          <a
+            href={place.mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline text-sm"
+          >
+            Open in Google Maps
+          </a>
+        </div>
+      ))}
+      {/* </div>
+        </div>
+      ))} */}
     </div>
   );
 }
