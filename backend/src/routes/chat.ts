@@ -18,6 +18,8 @@ router.post("/", async (req, res) => {
       })
     );
 
+    console.log("Finished with results:", results);
+
     res.json(results);
   } catch (err) {
     console.error(err);

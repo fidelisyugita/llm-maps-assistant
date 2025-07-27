@@ -16,13 +16,7 @@ function App() {
 
     try {
       const data = await askPlaces(query);
-      console.log("data: ", data);
       setResults(data);
-      // const res = await axios.post(`${import.meta.env.VITE_API_URL}chat`, {
-      //   question: query,
-      // });
-
-      // setResults(res.data.results);
     } catch (err) {
       console.error(err);
       setError("Failed to fetch places. Please try again.");
